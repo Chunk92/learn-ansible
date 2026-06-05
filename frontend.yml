@@ -1,0 +1,24 @@
+- name: Roboshop-frontend
+  hosts: all
+  become: true 
+  tasks:
+    - name: Instal nginx
+      ansible.builtin.dnf:
+        name: nginx
+        state: installed
+    - name: copy roboshop.conf file
+      ansible.builtin.copy:
+        src: nginx-roboshop.conf
+        dest: /etc/nginx/default.d/
+    - name: delete default nginx html configuration files 
+      ansible.builtin.file:
+        path: /usr/share/nginx/html/
+        state: absent
+    - name: create html folder
+      ansible.builtin.file:
+         path: /usr/share/nginx/html/
+         state: directory
+    - name: downloading static frontend content 
+      ansible.builtin.unarchive: 
+        src: https://roboshop-artifacts.s3.amazonaws.com/frontend.zip
+        dest: /usr/share/nginx/html/
