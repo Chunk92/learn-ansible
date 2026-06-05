@@ -8,7 +8,7 @@
         dest: /etc/yum.repos.d/
     - name: install mongodb
       ansible.builtin.dnf:
-        name: mongodb-org
+        name: mongodb-org.x86_64
         state: installed
     - name: replace listening adress for mongo
       ansible.builtin.replace: 
