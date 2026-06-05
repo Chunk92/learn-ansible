@@ -1,0 +1,48 @@
+
+    - name: disable nodejs
+      ansible.builtin.command:
+        cmd: dnf module disable nodejs -y
+    - name: enable nodejs 18
+      ansible.builtin.command:
+        cmd: dnf module enable nodejs:18 -y
+    - name: install nodejs
+      ansible.builtin.dnf:
+        name: nodejs
+        state: latest
+    
+    - name: import func_apppreq
+      ansible.builtin.import_tasks: app-preq.yml
+
+    - name: install npm
+      ansible.builtin.command:
+        cmd: npm install
+        chdir: /app
+
+    - name: import func_systemd
+      ansible.builtin.import_tasks: func_systemd.yml
+
+    - name: import func_schema
+      ansible.builtin.import_tasks: func_schema.yml
+      
+    
+
+
+
+
+
+
+
+
+
+
+
+# func_nodejs(){
+# cp ${component}.service /etc/systemd/system/
+# dnf module disable nodejs -y
+# dnf module enable nodejs:18 -y
+# dnf install nodejs -y
+
+# func_apppreq
+# npm install 
+# func_systemd
+# }
